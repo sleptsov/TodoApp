@@ -1,8 +1,8 @@
 ## Todo
 
 ### Prerequisites
-Node.js 8.9.3 or later
-angular-cli 1.6.3 or later
+Node.js 8.9.3 or later      
+angular-cli 1.6.3 or later     
 
 ## Development server
 
