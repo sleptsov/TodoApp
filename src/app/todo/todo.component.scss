@@ -1,0 +1,15 @@
+.td-check {
+    display: flex;
+    align-items: center;
+
+    label {
+        margin: 0 0 0 5px;
+    }
+}
+
+.td-valid-msg {
+    text-align: center;
+    color: #dc3545;
+    font-size: 12px;
+    margin: 4px 0 0 0;
+}

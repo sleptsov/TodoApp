@@ -1,0 +1,73 @@
+<div class="d-flex justify-content-end align-items-center my-2">
+  <button type="button" class="btn btn-primary d-flex justify-content-center align-items-center" aria-label="Add" (click)="showAddModal()">
+    <i class="mdi mdi-plus-circle-outline" aria-hidden="true"></i>
+    <span class="ml-1">Add one</span>
+  </button>
+</div>
+
+<td-todo-list [todos]="todoService.todos" (editClick)="showEditModal($event)" (deleteClick)="deleteTodo($event)"></td-todo-list>
+
+<!-- Form Modal -->
+
+<div bsModal #todoFormModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  aria-hidden="true" (onHidden)="hideModal()">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{currentTodo ? 'Edit' : 'Create'}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="todoForm" (ngSubmit)="onSubmit(todoForm.value)" novalidate>
+          <div class="form-group">
+            <label for="taskName">Task name</label>
+            <input type="text" id="taskName" formControlName="taskName" spellcheck="true" autocapitalize="true" class="form-control">
+            <p class="td-valid-msg" *ngIf="(todoForm.get('taskName').touched || todoForm.get('taskName').dirty) && todoForm.get('taskName').errors">
+              <span *ngIf="todoForm.get('taskName').hasError('required')">
+                Task name is required.
+              </span>
+              <span *ngIf="todoForm.get('taskName').hasError('maxlength')">
+                Task name max length is {{todoMaxLength}}.
+              </span>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="link">Link</label>
+            <input type="url" formControlName="link" spellcheck="false" autocapitalize="false" class="form-control">
+            <p class="td-valid-msg" *ngIf="(todoForm.get('link').touched || todoForm.get('link').dirty) && todoForm.get('link').errors">
+              <span *ngIf="todoForm.get('link').hasError('pattern')">
+                Link should start with http(s):// or www.
+              </span>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="link">Queueing</label>
+            <input type="number" formControlName="queueing" min="0" class="form-control">
+            <p class="td-valid-msg" *ngIf="(todoForm.get('queueing').touched || todoForm.get('queueing').dirty) && todoForm.get('queueing').errors">
+              <span *ngIf="todoForm.get('queueing').hasError('min')">
+                Cannot be negative.
+              </span>
+              <span *ngIf="todoForm.get('queueing').hasError('required')">
+                Queueing is required.
+              </span>
+            </p>
+          </div>
+          <div class="form-group">
+            <div class="form-check td-check">
+              <input type="checkbox" formControlName="isComplete" id="isComplete">
+              <label for="isComplete">
+                {{todoForm.get('isComplete').value ? 'Complited' : 'Uncomplited'}}
+              </label>
+            </div>
+          </div>
+          <div class="form-group text-center">
+            <button class="btn btn-outline-primary" type="button" (click)="hideModal()">Cancel</button>
+            <button class="btn btn-primary" type="submit" [disabled]="!todoForm.valid">{{currentTodo ? '&nbsp;&nbsp;Edit&nbsp;&nbsp;' : 'Create'}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

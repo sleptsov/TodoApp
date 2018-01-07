@@ -1,0 +1,31 @@
+<ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center" [class.done]="todo?.isComplete" *ngFor="let todo of todos">
+    <span *ngIf="!todo.link" class="td-todo-text">{{todo?.taskName}}</span>
+    <a *ngIf="todo.link" href="{{todo?.link}}" target="_blank" class="td-todo-text">{{todo?.taskName}}</a>
+    <span class="badge badge-info ml-2">{{todo?.queueing}}</span>
+    <button type="button" class="btn btn-primary d-none d-sm-block ml-2" aria-label="Edit" (click)="edit(todo)">
+      <i class="mdi mdi-pencil" aria-hidden="true"></i>
+      <span class="d-none d-lg-inline">Edit</span>
+    </button>
+    <button type="button" class="btn btn-danger d-none d-sm-block ml-2" aria-label="Delete" (click)="delete(todo)">
+      <i class="mdi mdi-delete" aria-hidden="true"></i>
+      <span class="d-none d-lg-inline">Delete</span>
+    </button>
+    <div class="btn-group d-block d-sm-none" dropdown placement="bottom right">
+      <button dropdownToggle type="button" class="btn btn-light dropdown-toggle td-more-btn ml-2" aria-label="More">
+        <i class="mdi mdi-dots-vertical" aria-hidden="true"></i>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+        <li role="menuitem">
+          <a class="dropdown-item" (click)="edit(todo)">
+            <i class="mdi mdi-pencil mr-1" aria-hidden="true"></i>Edit</a>
+        </li>
+        <li role="menuitem">
+          <a class="dropdown-item" (click)="delete(todo)">
+            <i class="mdi mdi-delete mr-1" aria-hidden="true"></i>Delete</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
+<p class="text-sm-center" *ngIf="!todos?.length">You have no todos</p>

@@ -1,0 +1,25 @@
+.td-todo-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+
+}
+.done {
+    .td-todo-text {
+        text-decoration: line-through;
+        color: #ddd;
+    }
+    .badge {
+        background-color: #ddd;
+    }
+    button.btn {
+        background-color: #ddd;
+        border-color: transparent;
+
+    }
+}
+
+.td-more-btn::after {
+    display: none;
+}
