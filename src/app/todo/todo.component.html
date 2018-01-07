@@ -5,7 +5,7 @@
   </button>
 </div>
 
-<td-todo-list [todos]="todoService.todos" (editClick)="showEditModal($event)" (deleteClick)="deleteTodo($event)"></td-todo-list>
+<td-todo-list [todos]="todos" (editClick)="showEditModal($event)" (deleteClick)="confirmDelete($event)"></td-todo-list>
 
 <!-- Form Modal -->
 
@@ -67,6 +67,26 @@
             <button class="btn btn-primary" type="submit" [disabled]="!todoForm.valid">{{currentTodo ? '&nbsp;&nbsp;Edit&nbsp;&nbsp;' : 'Create'}}</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+
+<div bsModal #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  aria-hidden="true" (onHidden)="hideModal()">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Confirm delete</h4>
+      </div>
+      <div class="modal-body text-center">
+        <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-danger" (click)="deleteTodo(currentTodo)">Yes</button>
+        <button type="button" class="btn btn-default" (click)="hideModal()">No</button>
       </div>
     </div>
   </div>

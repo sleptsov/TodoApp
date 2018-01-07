@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { TodoService } from './todo.service';
 import { Todo } from '../../models/Todo';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { resetFakeAsyncZone } from '@angular/core/testing';
 
 @Component({
   selector: 'td-todo',
@@ -17,6 +16,7 @@ export class TodoComponent implements OnInit {
   currentTodo: Todo;
 
   @ViewChild('todoFormModal') todoFormModal: ModalDirective;
+  @ViewChild('confirmModal') confirmModal: ModalDirective;
 
   constructor(
     private todoService: TodoService,
@@ -35,7 +35,18 @@ export class TodoComponent implements OnInit {
     }, (error) => console.log(error), () => { });
   }
 
+  get todos(): Todo[] {
+    return this.todoService.todos;
+  }
+
+  confirmDelete(todo: Todo): void {
+    this.currentTodo = todo;
+    this.confirmModal.show();
+  }
+
   deleteTodo(todo: Todo): void {
+    this.hideModal();
+
     if (!todo) {
       return;
     }
@@ -98,9 +109,12 @@ export class TodoComponent implements OnInit {
   hideModal(): void {
     if (this.todoFormModal.isShown) {
       this.todoFormModal.hide();
+      this.todoForm.reset();
+    }
+    if (this.confirmModal.isShown) {
+      this.confirmModal.hide();
     }
     this.currentTodo = null;
-    this.todoForm.reset();
   }
 
   initForm(): void {

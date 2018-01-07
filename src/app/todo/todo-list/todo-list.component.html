@@ -28,4 +28,6 @@
     </div>
   </li>
 </ul>
-<p class="text-sm-center" *ngIf="!todos?.length">You have no todos</p>
+<div *ngIf="!todos?.length" class="alert alert-warning" role="alert">
+  You have no todos!
+</div>

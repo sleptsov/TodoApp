@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: 'https://lexar.space'
+  api: 'http://localhost:3004' // https://lexar.space
 };
