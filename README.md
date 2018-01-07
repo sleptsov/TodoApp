@@ -1,12 +1,14 @@
-# Todo
+## Todo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
+### Prerequisites
+Node.js 8.9.3 or later
+angular-cli 1.6.3 or later
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.       
 
-Run `npm run server` to start mock json-server on `http://localhost:3004`.
+Run `npm run server` to start mock json-server on `http://localhost:3004`.     
 
 ## Build
 

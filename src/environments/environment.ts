@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:3004'
+  api: 'http://localhost:3004',
+  path: '/todo'
 };

@@ -11,32 +11,31 @@ import 'rxjs/add/observable/throw';
 export class TodoService {
 
   todos: Todo[];
-  path = '/todo';
 
   constructor(
     private httpClient: HttpClient
   ) { }
 
   loadTodos(): Observable<Todo[]> {
-    return this.httpClient.get<Todo[]>(`${environment.api}${this.path}`).pipe(
+    return this.httpClient.get<Todo[]>(`${environment.api}${environment.path}`).pipe(
       catchError((error: any) => Observable.throw(error))
     );
   }
 
   addTodo(todo: Todo): Observable<Todo> {
-    return this.httpClient.post(`${environment.api}${this.path}`, JSON.stringify(todo)).pipe(
+    return this.httpClient.post(`${environment.api}${environment.path}`, JSON.stringify(todo)).pipe(
       catchError((error: any) => Observable.throw(error))
     );
   }
 
   editTodo(todo: Todo): Observable<Todo> {
-    return this.httpClient.put(`${environment.api}${this.path}/${todo.id}`, JSON.stringify(todo)).pipe(
+    return this.httpClient.put(`${environment.api}${environment.path}/${todo.id}`, JSON.stringify(todo)).pipe(
       catchError((error: any) => Observable.throw(error))
     );
   }
 
   deleteTodo(todo: Todo): Observable<Todo> {
-    return this.httpClient.delete(`${environment.api}${this.path}/${todo.id}`).pipe(
+    return this.httpClient.delete(`${environment.api}${environment.path}/${todo.id}`).pipe(
       catchError((error: any) => Observable.throw(error))
     );
   }
