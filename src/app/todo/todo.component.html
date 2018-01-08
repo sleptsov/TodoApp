@@ -38,7 +38,7 @@
             <input type="url" formControlName="link" spellcheck="false" autocapitalize="false" class="form-control">
             <p class="td-valid-msg" *ngIf="(todoForm.get('link').touched || todoForm.get('link').dirty) && todoForm.get('link').errors">
               <span *ngIf="todoForm.get('link').hasError('pattern')">
-                Link should start with http(s):// or www.
+                Link should start with http(s)://
               </span>
             </p>
           </div>

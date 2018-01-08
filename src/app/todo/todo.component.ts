@@ -3,6 +3,7 @@ import { TodoService } from './todo.service';
 import { Todo } from '../../models/Todo';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoaderService } from '../core/loader/loader.service';
 
 @Component({
   selector: 'td-todo',
@@ -20,11 +21,13 @@ export class TodoComponent implements OnInit {
 
   constructor(
     private todoService: TodoService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
     this.initForm();
+    this.loaderService.show();
     this.todoService.getTodos().subscribe((response: Todo[]) => {
       if (response) {
         this.todoService.todos = response;
@@ -32,7 +35,10 @@ export class TodoComponent implements OnInit {
       } else {
         console.log(`Something went wrong.`);
       }
-    }, (error) => console.log(error), () => { });
+    }, (error) => {
+      console.log(error);
+      this.loaderService.hide();
+    }, () => { this.loaderService.hide(); });
   }
 
   get todos(): Todo[] {
@@ -46,7 +52,7 @@ export class TodoComponent implements OnInit {
 
   deleteTodo(todo: Todo): void {
     this.hideModal();
-
+    this.loaderService.show();
     if (!todo) {
       return;
     }
@@ -57,7 +63,10 @@ export class TodoComponent implements OnInit {
       } else {
         console.log(`Something went wrong.`);
       }
-    }, (error) => console.log(error), () => { });
+    }, (error) => {
+      this.loaderService.hide();
+      console.log(error);
+    }, () => { this.loaderService.hide(); });
   }
 
   editTodo(todo: Todo): void {
@@ -65,17 +74,31 @@ export class TodoComponent implements OnInit {
       return;
     }
 
+    // tslint:disable-next-line:max-line-length
+    const isChanged: boolean = todo.isComplete !== this.currentTodo.isComplete || todo.link !== this.currentTodo.link || todo.taskName !== this.currentTodo.taskName || todo.queueing !== this.currentTodo.queueing;
+    if (!isChanged) {
+      this.hideModal();
+      return;
+    }
     let editTodo: Todo = { ...this.currentTodo };
-    editTodo = Object.assign({}, editTodo, todo);
+    editTodo = Object.assign({}, editTodo, todo, {
+      modifiedOn: new Date().toISOString(),
+      modifiedBy: 1 // TODO set to userId when backend is ready
+    });
+
+    this.hideModal();
+    this.loaderService.show();
 
     this.todoService.editTodo(editTodo).subscribe((response: Todo) => {
-      if (response) {
-        this.todoService.updateTodos(response);
-        this.hideModal();
+      if (true) { // TODO Need to varify is success on backend
+        this.todoService.updateTodos(editTodo);
       } else {
-        console.log(`Something went wrong.`);
+        // console.log(`Something went wrong.`);
       }
-    }, (error) => console.log(error), () => { });
+    }, (error) => {
+      this.loaderService.hide();
+      console.log(error);
+    }, () => { this.loaderService.hide(); });
   }
 
   addTodo(todo: Todo): void {
@@ -85,14 +108,18 @@ export class TodoComponent implements OnInit {
     let newTodo: Todo = new Todo();
     newTodo = Object.assign({}, newTodo, todo);
 
+    this.hideModal();
+    this.loaderService.show();
     this.todoService.addTodo(newTodo).subscribe((response: Todo) => {
       if (response) {
         this.todoService.addNewTodo(response);
-        this.hideModal();
       } else {
         console.log(`Something went wrong.`);
       }
-    }, (error) => console.log(error), () => { });
+    }, (error) => {
+      this.loaderService.hide();
+      console.log(error);
+    }, () => { this.loaderService.hide(); });
   }
 
   showEditModal(todo: Todo): void {
@@ -120,7 +147,7 @@ export class TodoComponent implements OnInit {
   initForm(): void {
     this.todoForm = this.fb.group({
       taskName: ['', Validators.compose([Validators.required, Validators.maxLength(this.todoMaxLength)])],
-      link: ['', Validators.compose([Validators.pattern('^(http:\/\/|https:\/\/|www)(.*)')])],
+      link: ['', Validators.compose([Validators.pattern('^(http:\/\/|https:\/\/)(.*)')])],
       queueing: [0, Validators.compose([Validators.required, Validators.min(0)])],
       isComplete: [false]
     });

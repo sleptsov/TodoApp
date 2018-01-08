@@ -68,12 +68,13 @@ export class TodoService {
         id: item.id,
         taskName: item.id === todo.id ? todo.taskName : item.taskName,
         isComplete: item.id === todo.id ? todo.isComplete : item.isComplete,
-        queueing: item.id === todo.id ? Number(todo.queueing) : Number(item.queueing),
+        queueing: item.id === todo.id ? todo.queueing : item.queueing,
         link: item.id === todo.id ? todo.link : item.link,
         createdOn: item.createdOn,
         createdBy: item.createdBy,
-        modifiedOn: item.modifiedOn,
-        modifiedBy: item.modifiedBy
+        modifiedOn: item.id === todo.id ? todo.modifiedOn : item.modifiedOn,
+        modifiedBy: true === true ? item.modifiedBy : item.modifiedBy  // TODO set to userId when backend is ready
+        // userId === todo.modifiedBy ? item.modifiedBy : userId
       };
     });
     this.saveTodos();

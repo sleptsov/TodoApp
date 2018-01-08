@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:3004',
+  api: 'https://lexar.space/api', // http://localhost:3004
   path: '/todo'
 };
