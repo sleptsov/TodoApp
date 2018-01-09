@@ -1,6 +1,6 @@
 {
   "name": "todo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -10,8 +10,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "update-deps": "rm -rf node_modules && rm -rf package-lock.json && npm install",
-    "server": "json-server --watch db.json --port 3004",
-    "dev": "npm run server | npm run start"
   },
   "private": true,
   "dependencies": {
