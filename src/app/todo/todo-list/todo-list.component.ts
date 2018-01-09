@@ -43,4 +43,12 @@ export class TodoListComponent implements OnInit {
     return res;
   }
 
+  isAllDone(todos: Todo[]): boolean {
+    return todos.every(item => item.isComplete);
+  }
+
+  isOneDone(todos: Todo[]): boolean {
+    return todos.every(item => !item.isComplete);
+  }
+
 }
