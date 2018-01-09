@@ -7,15 +7,18 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoService } from './todo.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     TodoRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     ModalModule.forRoot(),
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    ButtonsModule.forRoot()
   ],
   declarations: [
     TodoComponent,

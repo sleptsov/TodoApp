@@ -4,6 +4,7 @@ import { Todo } from '../../models/Todo';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoaderService } from '../core/loader/loader.service';
+import { SORT_TYPES, TODOS_VIEW_STATUS, ORDER_TYPES } from '../../models/Common';
 
 @Component({
   selector: 'td-todo',
@@ -15,6 +16,12 @@ export class TodoComponent implements OnInit {
   todoMaxLength = 100;
   todoForm: FormGroup;
   currentTodo: Todo;
+  sortTypes = SORT_TYPES;
+  initialSortBy: string = this.sortTypes.QUEUEING;
+  orderTypes = ORDER_TYPES;
+  orderedBy: string = this.orderTypes.ASC;
+  todoViewStatus = TODOS_VIEW_STATUS;
+  initialTodoShow: string = this.todoViewStatus.ALL;
 
   @ViewChild('todoFormModal') todoFormModal: ModalDirective;
   @ViewChild('confirmModal') confirmModal: ModalDirective;
@@ -27,11 +34,16 @@ export class TodoComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.loadTodos();
+  }
+
+  loadTodos(): void {
     this.loaderService.show();
-    this.todoService.getTodos().subscribe((response: Todo[]) => {
+    this.todoService.loadTodos().subscribe((response: Todo[]) => {
       if (response) {
         this.todoService.todos = response;
-        this.todoService.saveTodos();
+        this.sortBy(this.initialSortBy);
+        // this.todoService.saveTodos(); // Temporary off.
       } else {
         console.log(`Something went wrong.`);
       }
@@ -43,6 +55,10 @@ export class TodoComponent implements OnInit {
 
   get todos(): Todo[] {
     return this.todoService.todos;
+  }
+
+  get isLoading(): boolean {
+    return this.loaderService.isLoading;
   }
 
   confirmDelete(todo: Todo): void {
@@ -92,6 +108,7 @@ export class TodoComponent implements OnInit {
     this.todoService.editTodo(editTodo).subscribe((response: Todo) => {
       if (true) { // TODO Need to varify is success on backend
         this.todoService.updateTodos(editTodo);
+        this.sortBy(this.initialSortBy);
       } else {
         // console.log(`Something went wrong.`);
       }
@@ -113,6 +130,7 @@ export class TodoComponent implements OnInit {
     this.todoService.addTodo(newTodo).subscribe((response: Todo) => {
       if (response) {
         this.todoService.addNewTodo(response);
+        this.sortBy(this.initialSortBy);
       } else {
         console.log(`Something went wrong.`);
       }
@@ -146,8 +164,8 @@ export class TodoComponent implements OnInit {
 
   initForm(): void {
     this.todoForm = this.fb.group({
-      taskName: ['', Validators.compose([Validators.required, Validators.maxLength(this.todoMaxLength)])],
-      link: ['', Validators.compose([Validators.pattern('^(http:\/\/|https:\/\/)(.*)')])],
+      taskName: ['', Validators.required],
+      link: ['', Validators.pattern('^(http:\/\/|https:\/\/)(.*)')],
       queueing: [0, Validators.compose([Validators.required, Validators.min(0)])],
       isComplete: [false]
     });
@@ -180,6 +198,54 @@ export class TodoComponent implements OnInit {
     } else {
       this.addTodo(data);
     }
+  }
+
+  refresh(): void {
+    this.loadTodos();
+  }
+
+  orderBy(): void {
+    this.sortBy(this.initialSortBy);
+  }
+
+  sortBy(sortBy: string): void {
+    if (!sortBy) {
+      return;
+    }
+
+    switch (sortBy) {
+      case this.sortTypes.CREATED:
+        if (this.orderedBy === this.orderTypes.ASC) {
+          this.todos.sort((a, b): any => new Date(a.createdOn).getTime() - new Date(b.createdOn).getTime());
+        } else {
+          this.todos.sort((a, b): any => new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime());
+        }
+        break;
+      case this.sortTypes.MODIFIED:
+        if (this.orderedBy === this.orderTypes.ASC) {
+          this.todos.sort((a, b): any => new Date(a.modifiedOn).getTime() - new Date(b.modifiedOn).getTime());
+        } else {
+          this.todos.sort((a, b): any => new Date(b.modifiedOn).getTime() - new Date(a.modifiedOn).getTime());
+        }
+        break;
+      case this.sortTypes.QUEUEING:
+        if (this.orderedBy === this.orderTypes.ASC) {
+          this.todos.sort((a, b): any => a.queueing - b.queueing);
+        } else {
+          this.todos.sort((a, b): any => b.queueing - a.queueing);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+
+  setDoneTodoView(status: string): void {
+    if (!status) {
+      return;
+    }
+    this.initialTodoShow = status;
   }
 
 }

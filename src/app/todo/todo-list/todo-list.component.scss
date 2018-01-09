@@ -14,12 +14,50 @@
         background-color: #ddd;
     }
     button.btn {
-        background-color: #ddd;
-        border-color: transparent;
+        border-color: #ddd;
+        color: #ddd;
+    }
 
+    button.btn:hover {
+        border-color: transparent;
     }
 }
 
 .td-more-btn::after {
     display: none;
+}
+
+a {
+    cursor: pointer;
+
+    &.edit-link, &.edit-link:hover {
+        color: #17a2b8;
+        i {
+            color: #17a2b8;
+        }
+    }
+
+    &.delete-link, &.delete-link:hover {
+        color: #dc3545;
+        i {
+            color: #dc3545;
+        }
+    }
+}
+
+.td-list-item {
+    height: auto;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.2s;
+
+    &.hidden {
+        height: 0px;
+        opacity: 0;
+        visibility: hidden;
+        margin: 0;
+        padding: 0;
+        box-shadow: 0;
+        border: 0;
+    }
 }

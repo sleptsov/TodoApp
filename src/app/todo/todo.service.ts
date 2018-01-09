@@ -40,25 +40,27 @@ export class TodoService {
     );
   }
 
-  getTodos(): Observable<Todo[]> {
+  // Temporary off.
+
+  /*getTodos(): Observable<Todo[]> {
     const localTodos = JSON.parse(localStorage.getItem('todos'));
     if (!localTodos) {
       return this.loadTodos();
     } else {
       return of(localTodos);
     }
-  }
+  }*/
 
   addNewTodo(todo: Todo): void {
     this.todos = [...this.todos, todo];
-    this.saveTodos();
+    // this.saveTodos(); // Temporary off.
   }
 
   spliceTodo(todo: Todo): void {
     const index: number = this.todos.findIndex((t: Todo) => t.id === todo.id);
     if (index > -1) {
       this.todos.splice(index, 1);
-      this.saveTodos();
+      // this.saveTodos(); // Temporary off.
     }
   }
 
@@ -77,12 +79,13 @@ export class TodoService {
         // userId === todo.modifiedBy ? item.modifiedBy : userId
       };
     });
-    this.saveTodos();
+    // this.saveTodos(); // Temporary off.
   }
 
-  saveTodos(): void {
+  // Temporary off.
+  /* saveTodos(): void {
     localStorage.setItem('todos', JSON.stringify(this.todos));
-  }
+  } */
 
 
 

@@ -1,9 +1,15 @@
 .td-check {
     display: flex;
     align-items: center;
+    color: #dc3545;
+    font-size: 500;
 
     label {
         margin: 0 0 0 5px;
+    }
+
+    &.done {
+        color: #32db64;
     }
 }
 
@@ -12,4 +18,46 @@
     color: #dc3545;
     font-size: 12px;
     margin: 4px 0 0 0;
+}
+
+.td-btn-group-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+    order: 0;
+
+    @media (max-width: 991.99px) { 
+        justify-content: center;
+        order: 1;
+        margin-top: 5px;
+    }
+
+    @media (max-width: 575.99px) { 
+        flex-wrap: wrap;
+    }
+
+    .btn-group-sm {
+        margin: 0 10px 0 0;
+        @media (max-width: 991.99px) { 
+            margin: 5px;
+        }
+    }
+
+    label {
+        margin-bottom: 0;
+    }
+
+    label:hover {
+        cursor: pointer;
+    }
+
+    label.active {
+        box-shadow: none;
+    }
+
+}
+
+.td-btn-group-sort {
+
 }

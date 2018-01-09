@@ -1,12 +1,39 @@
-<div class="d-flex justify-content-end align-items-center my-2">
-  <button type="button" class="btn btn-primary d-flex justify-content-center align-items-center" aria-label="Add" (click)="showAddModal()">
-    <i class="mdi mdi-plus-circle-outline" aria-hidden="true"></i>
-    <span class="ml-1">Add one</span>
-  </button>
+<div class=" row d-flex justify-content-end align-items-center my-2">
+  <div class="td-btn-group-wrapper col-sm-12 col-lg-6">
+    <div class="btn-group btn-group-sm">
+      <label class="btn btn-outline-secondary" [(ngModel)]="orderedBy" btnRadio="{{orderTypes.DESC}}" (click)="orderBy()">DESC</label>
+      <label class="btn btn-outline-secondary" [(ngModel)]="orderedBy" btnRadio="{{orderTypes.ASC}}" (click)="orderBy()">ASC</label>
+    </div>
+    <div class="btn-group btn-group-sm">
+      <label class="btn btn-outline-secondary" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.CREATED}}" (click)="sortBy(sortTypes.CREATED)">Created</label>
+      <label class="btn btn-outline-secondary" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.MODIFIED}}" (click)="sortBy(sortTypes.MODIFIED)">Modified</label>
+      <label class="btn btn-outline-secondary" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.QUEUEING}}" (click)="sortBy(sortTypes.QUEUEING)">Queueing</label>
+    </div>
+    <div class="btn-group btn-group-sm">
+      <label class="btn btn-outline-secondary" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.ALL}}" (click)="setDoneTodoView(todoViewStatus.ALL)">All</label>
+      <label class="btn btn-outline-secondary" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.DONE}}" (click)="setDoneTodoView(todoViewStatus.DONE)">Finished</label>
+      <label class="btn btn-outline-secondary" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.NOTDONE}}" (click)="setDoneTodoView(todoViewStatus.NOTDONE)">Unfinished</label>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end align-items-center col-sm-12 col-lg-6">
+    <button type="button" class="btn btn-outline-success d-flex justify-content-center align-items-center ml-2" aria-label="Add"
+      (click)="showAddModal()">
+      <i class="mdi mdi-plus-circle-outline" aria-hidden="true"></i>
+      <span class="ml-1">Add one</span>
+    </button>
+
+    <button type="button" class="btn btn-outline-info d-flex justify-content-center align-items-center ml-2" aria-label="Refresh"
+      (click)="refresh()">
+      <i class="mdi mdi-refresh" aria-hidden="true"></i>
+      <span class="ml-1">Refresh</span>
+    </button>
+  </div>
 </div>
 
-<td-todo-list [todos]="todos" (editClick)="showEditModal($event)" (deleteClick)="confirmDelete($event)"></td-todo-list>
-
+<td-todo-list [todos]="todos" (editClick)="showEditModal($event)" (deleteClick)="confirmDelete($event)" [todosViewStatus]="initialTodoShow"></td-todo-list>
+<div *ngIf="!todos?.length && !isLoading" class="alert alert-warning" role="alert">
+  You have no todos!
+</div>
 <!-- Form Modal -->
 
 <div bsModal #todoFormModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
@@ -27,9 +54,6 @@
             <p class="td-valid-msg" *ngIf="(todoForm.get('taskName').touched || todoForm.get('taskName').dirty) && todoForm.get('taskName').errors">
               <span *ngIf="todoForm.get('taskName').hasError('required')">
                 Task name is required.
-              </span>
-              <span *ngIf="todoForm.get('taskName').hasError('maxlength')">
-                Task name max length is {{todoMaxLength}}.
               </span>
             </p>
           </div>
@@ -55,7 +79,7 @@
             </p>
           </div>
           <div class="form-group">
-            <div class="form-check td-check">
+            <div class="form-check td-check" [class.done]="todoForm.get('isComplete').value === true">
               <input type="checkbox" formControlName="isComplete" id="isComplete">
               <label for="isComplete">
                 {{todoForm.get('isComplete').value ? 'Complited' : 'Uncomplited'}}
@@ -63,8 +87,8 @@
             </div>
           </div>
           <div class="form-group text-center">
-            <button class="btn btn-outline-primary" type="button" (click)="hideModal()">Cancel</button>
-            <button class="btn btn-primary" type="submit" [disabled]="!todoForm.valid">{{currentTodo ? '&nbsp;&nbsp;Edit&nbsp;&nbsp;' : 'Create'}}</button>
+            <button class="btn btn-outline-info" type="button" (click)="hideModal()">Cancel</button>
+            <button class="btn btn-outline-info" type="submit" [disabled]="!todoForm.valid">{{currentTodo ? '&nbsp;&nbsp;Edit&nbsp;&nbsp;' : 'Create'}}</button>
           </div>
         </form>
       </div>
