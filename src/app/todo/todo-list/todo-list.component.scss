@@ -5,6 +5,21 @@
     flex: 1;
 
 }
+
+.td-btn-list-wrapper {
+    @media (max-width: 767px) { 
+        display: none;
+    }
+}
+
+.td-btn-list-dropdown {
+    display: none;
+
+    @media (max-width: 767px) { 
+        display: block;
+    }
+
+}
 .done {
     .td-todo-text {
         text-decoration: line-through;

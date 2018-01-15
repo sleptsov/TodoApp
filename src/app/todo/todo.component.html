@@ -1,29 +1,27 @@
-<div class=" row d-flex justify-content-end align-items-center my-2">
+<div class=" row d-flex justify-content-end align-items-center my-2 td-row">
   <div class="td-btn-group-wrapper col-sm-12 col-lg-6">
     <div class="btn-group btn-group-sm">
-      <label class="btn btn-outline-secondary" [(ngModel)]="orderedBy" btnRadio="{{orderTypes.DESC}}" (click)="orderBy()">DESC</label>
-      <label class="btn btn-outline-secondary" [(ngModel)]="orderedBy" btnRadio="{{orderTypes.ASC}}" (click)="orderBy()">ASC</label>
+      <label class="btn btn-default" [(ngModel)]="orderedBy" btnRadio="{{orderTypes.DESC}}" (click)="orderBy()">DESC</label>
+      <label class="btn btn-default" [(ngModel)]="orderedBy" btnRadio="{{orderTypes.ASC}}" (click)="orderBy()">ASC</label>
     </div>
     <div class="btn-group btn-group-sm">
-      <label class="btn btn-outline-secondary" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.CREATED}}" (click)="sortBy(sortTypes.CREATED)">Created</label>
-      <label class="btn btn-outline-secondary" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.MODIFIED}}" (click)="sortBy(sortTypes.MODIFIED)">Modified</label>
-      <label class="btn btn-outline-secondary" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.QUEUEING}}" (click)="sortBy(sortTypes.QUEUEING)">Queueing</label>
+      <label class="btn btn-default" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.CREATED}}" (click)="sortBy(sortTypes.CREATED)">Created</label>
+      <label class="btn btn-default" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.MODIFIED}}" (click)="sortBy(sortTypes.MODIFIED)">Modified</label>
+      <label class="btn btn-default" [(ngModel)]="initialSortBy" btnRadio="{{sortTypes.QUEUEING}}" (click)="sortBy(sortTypes.QUEUEING)">Queueing</label>
     </div>
     <div class="btn-group btn-group-sm">
-      <label class="btn btn-outline-secondary" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.ALL}}" (click)="setDoneTodoView(todoViewStatus.ALL)">All</label>
-      <label class="btn btn-outline-secondary" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.DONE}}" (click)="setDoneTodoView(todoViewStatus.DONE)">Finished</label>
-      <label class="btn btn-outline-secondary" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.NOTDONE}}" (click)="setDoneTodoView(todoViewStatus.NOTDONE)">Unfinished</label>
+      <label class="btn btn-default" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.ALL}}" (click)="setDoneTodoView(todoViewStatus.ALL)">All</label>
+      <label class="btn btn-default" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.DONE}}" (click)="setDoneTodoView(todoViewStatus.DONE)">Finished</label>
+      <label class="btn btn-default" [(ngModel)]="initialTodoShow" btnRadio="{{todoViewStatus.NOTDONE}}" (click)="setDoneTodoView(todoViewStatus.NOTDONE)">Unfinished</label>
     </div>
   </div>
-  <div class="d-flex justify-content-end align-items-center col-sm-12 col-lg-6">
-    <button type="button" class="btn btn-outline-success d-flex justify-content-center align-items-center ml-2" aria-label="Add"
-      (click)="showAddModal()">
+  <div class="d-flex justify-content-end align-items-center col-sm-12 col-lg-6 td-btn-group">
+    <button type="button" class="btn btn-success d-flex justify-content-center align-items-center ml-2" aria-label="Add" (click)="showAddModal()">
       <i class="mdi mdi-plus-circle-outline" aria-hidden="true"></i>
       <span class="ml-1">Add one</span>
     </button>
 
-    <button type="button" class="btn btn-outline-info d-flex justify-content-center align-items-center ml-2" aria-label="Refresh"
-      (click)="refresh()">
+    <button type="button" class="btn btn-info d-flex justify-content-center align-items-center ml-2" aria-label="Refresh" (click)="refresh()">
       <i class="mdi mdi-refresh" aria-hidden="true"></i>
       <span class="ml-1">Refresh</span>
     </button>
@@ -87,8 +85,8 @@
             </div>
           </div>
           <div class="form-group text-center">
-            <button class="btn btn-outline-info" type="button" (click)="hideModal()">Cancel</button>
-            <button class="btn btn-outline-info" type="submit" [disabled]="!todoForm.valid">{{currentTodo ? '&nbsp;&nbsp;Edit&nbsp;&nbsp;' : 'Create'}}</button>
+            <button class="btn btn-info" type="button" (click)="hideModal()">Cancel</button>
+            <button class="btn btn-info" type="submit" [disabled]="!todoForm.valid">{{currentTodo ? '&nbsp;&nbsp;Edit&nbsp;&nbsp;' : 'Create'}}</button>
           </div>
         </form>
       </div>
